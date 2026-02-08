@@ -8,7 +8,7 @@ import { redirect } from "next/navigation";
 
 import { PARTICIPANT_COOKIE_NAME, SUBMITTED_COOKIE_NAME } from "@/lib/cookies";
 import { prisma } from "@/lib/prisma";
-import { parseParticipantAnswers } from "@/lib/validation";
+import { parseParticipantAnswer1, parseParticipantAnswers } from "@/lib/validation";
 
 function redirectHome(params: Record<string, string>): never {
   const searchParams = new URLSearchParams(params);
@@ -16,11 +16,56 @@ function redirectHome(params: Record<string, string>): never {
   redirect(query ? `/?${query}` : "/");
 }
 
+function redirectQuestionTwo(answer1: number, params: Record<string, string> = {}): never {
+  const searchParams = new URLSearchParams({
+    answer1: String(answer1),
+    ...params,
+  });
+  redirect(`/question-2?${searchParams.toString()}`);
+}
+
+function formStringValue(value: FormDataEntryValue | null): string {
+  return typeof value === "string" ? value : "";
+}
+
+export async function continueToQuestionTwoAction(formData: FormData): Promise<void> {
+  const parsedAnswer1 = parseParticipantAnswer1(formStringValue(formData.get("answer1")));
+
+  if (!parsedAnswer1.success) {
+    redirectHome({ error: parsedAnswer1.message });
+  }
+
+  const cookieStore = await cookies();
+
+  if (cookieStore.get(SUBMITTED_COOKIE_NAME)) {
+    redirectHome({
+      error: "This browser session already submitted answers.",
+    });
+  }
+
+  const openSession = await prisma.studySession.findFirst({
+    where: { status: SessionStatus.OPEN },
+    orderBy: { startedAt: "desc" },
+  });
+
+  if (!openSession) {
+    redirectHome({ error: "Session is closed. Please wait for admin to open a new session." });
+  }
+
+  redirectQuestionTwo(parsedAnswer1.answer1);
+}
+
 export async function submitParticipantAction(formData: FormData): Promise<void> {
+  const parsedAnswer1 = parseParticipantAnswer1(formStringValue(formData.get("answer1")));
+
+  if (!parsedAnswer1.success) {
+    redirectHome({ error: parsedAnswer1.message });
+  }
+
   const parsedAnswers = parseParticipantAnswers(formData);
 
   if (!parsedAnswers.success) {
-    redirectHome({ error: parsedAnswers.message });
+    redirectQuestionTwo(parsedAnswer1.answer1, { error: parsedAnswers.message });
   }
 
   const cookieStore = await cookies();
@@ -71,4 +116,3 @@ export async function submitParticipantAction(formData: FormData): Promise<void>
 
   redirectHome({ success: "Your answers were submitted." });
 }
-

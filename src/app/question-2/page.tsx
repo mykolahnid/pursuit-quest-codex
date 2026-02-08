@@ -1,22 +1,31 @@
 import Link from "next/link";
 import { SessionStatus } from "@prisma/client";
 import { cookies } from "next/headers";
+import { redirect } from "next/navigation";
 
-import { continueToQuestionTwoAction } from "@/app/actions/participant";
+import { submitParticipantAction } from "@/app/actions/participant";
 import { SUBMITTED_COOKIE_NAME } from "@/lib/cookies";
 import { prisma } from "@/lib/prisma";
+import { parseParticipantAnswer1 } from "@/lib/validation";
 
-import styles from "./page.module.css";
+import styles from "../page.module.css";
 
-type HomePageProps = {
+type QuestionTwoPageProps = {
   searchParams: Promise<{
-    success?: string;
+    answer1?: string;
     error?: string;
   }>;
 };
 
-export default async function Home({ searchParams }: HomePageProps) {
+export default async function QuestionTwoPage({ searchParams }: QuestionTwoPageProps) {
   const params = await searchParams;
+  const parsedAnswer1 = parseParticipantAnswer1(params.answer1 ?? "");
+
+  if (!parsedAnswer1.success) {
+    const redirectParams = new URLSearchParams({ error: "Please complete question 1 first." });
+    redirect(`/?${redirectParams.toString()}`);
+  }
+
   const cookieStore = await cookies();
 
   const activeSession = await prisma.studySession.findFirst({
@@ -28,12 +37,11 @@ export default async function Home({ searchParams }: HomePageProps) {
   const canSubmit = Boolean(activeSession) && !hasSubmitted;
 
   const statusMessage =
-    params.success ||
     params.error ||
     (hasSubmitted
       ? "This browser session already submitted a response."
       : activeSession
-        ? `Active session: ${activeSession.name}`
+        ? `Step 2 of 2. Your first answer is ${parsedAnswer1.answer1}.`
         : "No session is currently open.");
 
   return (
@@ -41,34 +49,37 @@ export default async function Home({ searchParams }: HomePageProps) {
       <section className={styles.card}>
         <header className={styles.header}>
           <h1>Number Estimation Survey</h1>
+          <p>Step 2 of 2: finish your response.</p>
         </header>
 
         <p className={params.error ? styles.statusError : styles.statusInfo}>{statusMessage}</p>
 
-        <form action={continueToQuestionTwoAction} className={styles.form}>
+        <form action={submitParticipantAction} className={styles.form}>
           <fieldset disabled={!canSubmit} className={styles.fieldset}>
+            <input name="answer1" type="hidden" value={parsedAnswer1.answer1} />
+
             <label className={styles.field}>
-              <span>1. Enter a number between 1 and 100</span>
+              <span>2. How many African countries are members of the United Nations?</span>
               <input
-                name="answer1"
+                name="answer2"
                 type="number"
-                min={1}
-                max={100}
+                min={0}
+                max={1000}
                 step={1}
-                placeholder="1 to 100"
+                placeholder="0 to 1000"
                 required
               />
             </label>
-
           </fieldset>
 
           <button type="submit" disabled={!canSubmit} className={styles.submit}>
-            Continue
+            Submit Answers
           </button>
         </form>
 
         <footer className={styles.footer}>
-          <Link href="/admin/login">Admin Mode</Link>
+          <p>Only one submission is allowed per browser session.</p>
+          <Link href="/">Back to Question 1</Link>
         </footer>
       </section>
     </main>

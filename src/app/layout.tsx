@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Priming Effect Study",
+  title: "Number Survey",
   description: "A small study app with participant submission and admin analytics.",
 };
 
