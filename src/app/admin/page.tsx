@@ -78,9 +78,10 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
     answer2: response.answer2,
   }));
 
-  const answer1Values = selectedResponses.map((response) => response.answer1);
-  const answer2Values = selectedResponses.map((response) => response.answer2);
-  const labels = selectedResponses.map((_, index) => `Person ${index + 1}`);
+  const sortedChartResponses = [...selectedResponses].sort((left, right) => left.answer1 - right.answer1);
+  const answer1Values = sortedChartResponses.map((response) => response.answer1);
+  const answer2Values = sortedChartResponses.map((response) => response.answer2);
+  const labels = sortedChartResponses.map((_, index) => `Person ${index + 1}`);
 
   const avgAnswer1 = mean(answer1Values);
   const avgAnswer2 = mean(answer2Values);
