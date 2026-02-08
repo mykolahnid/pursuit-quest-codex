@@ -48,7 +48,7 @@ export default async function QuestionTwoPage({ searchParams }: QuestionTwoPageP
     <main className={styles.page}>
       <section className={styles.card}>
         <header className={styles.header}>
-          <h1>Number Estimation Survey</h1>
+          <h1>Number Survey</h1>
           <p>Step 2 of 2: finish your response.</p>
         </header>
 
@@ -64,9 +64,9 @@ export default async function QuestionTwoPage({ searchParams }: QuestionTwoPageP
                 name="answer2"
                 type="number"
                 min={0}
-                max={1000}
+                max={100}
                 step={1}
-                placeholder="0 to 1000"
+                placeholder="0 to 100"
                 required
               />
             </label>

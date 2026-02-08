@@ -51,11 +51,11 @@ function clamp(value: number, min: number, max: number): number {
 
 function simulatedAnswer2(answer1: number, mode: RandomMode): number {
   if (mode === "independent") {
-    return randomInt(0, 1000);
+    return randomInt(0, 100);
   }
 
-  const noise = randomInt(-140, 140);
-  return clamp(Math.round(answer1 * 8 + 120 + noise), 0, 1000);
+  const noise = randomInt(-14, 14);
+  return clamp(Math.round(answer1 * 0.8 + 12 + noise), 0, 100);
 }
 
 export async function adminLoginAction(formData: FormData): Promise<void> {
@@ -186,4 +186,3 @@ export async function deleteAllStudyDataAction(): Promise<void> {
 
   redirectAdmin({ notice: "All sessions and responses were deleted." });
 }
-

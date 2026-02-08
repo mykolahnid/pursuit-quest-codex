@@ -35,7 +35,7 @@ export function AdminChart({ labels, answer1Values, answer2Values }: AdminChartP
             tension: 0.25,
           },
           {
-            label: "Answer 2 (0-1000)",
+            label: "Answer 2 (0-100)",
             data: answer2Values,
             borderColor: "#b54708",
             backgroundColor: "rgba(181, 71, 8, 0.12)",
@@ -63,4 +63,3 @@ export function AdminChart({ labels, answer1Values, answer2Values }: AdminChartP
     />
   );
 }
-

@@ -40,7 +40,7 @@ export default async function Home({ searchParams }: HomePageProps) {
     <main className={styles.page}>
       <section className={styles.card}>
         <header className={styles.header}>
-          <h1>Number Estimation Survey</h1>
+          <h1>Number Survey</h1>
         </header>
 
         <p className={params.error ? styles.statusError : styles.statusInfo}>{statusMessage}</p>

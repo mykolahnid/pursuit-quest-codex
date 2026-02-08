@@ -11,7 +11,7 @@ const answer1Schema = integerStringSchema
 
 const answer2Schema = integerStringSchema
   .transform(Number)
-  .pipe(z.number().int().min(0, "Answer 2 must be between 0 and 1000.").max(1000, "Answer 2 must be between 0 and 1000."));
+  .pipe(z.number().int().min(0, "Answer 2 must be between 0 and 100.").max(100, "Answer 2 must be between 0 and 100."));
 
 const participantSchema = z.object({
   answer1: answer1Schema,
