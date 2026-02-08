@@ -17,6 +17,7 @@ import {
   correlationInterpretation,
   mean,
   pearsonCorrelation,
+  pearsonCorrelationSignificance,
   simpleRegression,
 } from "@/lib/stats";
 
@@ -41,6 +42,18 @@ function formatValue(value: number | null, digits = 3): string {
   }
 
   return value.toFixed(digits);
+}
+
+function formatPValue(value: number | null): string {
+  if (value === null || Number.isNaN(value)) {
+    return "N/A";
+  }
+
+  if (value > 0 && value < 0.0001) {
+    return "< 0.0001";
+  }
+
+  return value.toFixed(4);
 }
 
 export default async function AdminPage({ searchParams }: AdminPageProps) {
@@ -86,6 +99,7 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
   const avgAnswer1 = mean(answer1Values);
   const avgAnswer2 = mean(answer2Values);
   const correlation = pearsonCorrelation(answerPairs);
+  const correlationSignificance = pearsonCorrelationSignificance(answerPairs);
   const regression = simpleRegression(answerPairs);
 
   return (
@@ -189,6 +203,14 @@ export default async function AdminPage({ searchParams }: AdminPageProps) {
                   <div className={styles.statCard}>
                     <p className={styles.statLabel}>Pearson r</p>
                     <p className={styles.statValue}>{formatValue(correlation, 3)}</p>
+                  </div>
+                  <div className={styles.statCard}>
+                    <p className={styles.statLabel}>t-statistic</p>
+                    <p className={styles.statValue}>{formatValue(correlationSignificance?.tStatistic ?? null, 3)}</p>
+                  </div>
+                  <div className={styles.statCard}>
+                    <p className={styles.statLabel}>p-value (two-tailed)</p>
+                    <p className={styles.statValue}>{formatPValue(correlationSignificance?.pValue ?? null)}</p>
                   </div>
                   <div className={styles.statCard}>
                     <p className={styles.statLabel}>Linear Model (y = ax + b)</p>
