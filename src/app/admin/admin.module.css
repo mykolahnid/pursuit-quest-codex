@@ -1,0 +1,286 @@
+.page {
+  min-height: 100vh;
+  padding: 24px 16px 32px;
+  background:
+    radial-gradient(circle at 20% -10%, rgba(31, 138, 112, 0.2), transparent 40%),
+    linear-gradient(180deg, #f7fbff 0%, #eef6f8 100%);
+  font-family: var(--font-geist-sans);
+}
+
+.container {
+  width: min(1120px, 100%);
+  margin: 0 auto;
+  display: grid;
+  gap: 16px;
+}
+
+.header {
+  background: #fff;
+  border: 1px solid #cedce4;
+  border-radius: 14px;
+  padding: 16px;
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: center;
+}
+
+.headerTitle h1 {
+  font-size: 1.7rem;
+  color: #0d3f52;
+}
+
+.headerTitle p {
+  margin-top: 4px;
+  color: #3f5e6b;
+}
+
+.statusBadgeOpen,
+.statusBadgeClosed {
+  display: inline-block;
+  padding: 5px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+}
+
+.statusBadgeOpen {
+  color: #145a43;
+  background: #e3f4ee;
+}
+
+.statusBadgeClosed {
+  color: #654321;
+  background: #fff0de;
+}
+
+.notice,
+.error {
+  border-radius: 10px;
+  padding: 10px 12px;
+  font-weight: 600;
+}
+
+.notice {
+  background: #e7f7ef;
+  color: #17613f;
+}
+
+.error {
+  background: #fde9e4;
+  color: #8d2918;
+}
+
+.grid {
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(12, 1fr);
+}
+
+.panel {
+  background: #fff;
+  border: 1px solid #cedce4;
+  border-radius: 14px;
+  padding: 16px;
+  display: grid;
+  gap: 12px;
+}
+
+.panel h2 {
+  font-size: 1.1rem;
+  color: #143f52;
+}
+
+.panelActions {
+  grid-column: span 5;
+  align-content: start;
+}
+
+.panelAnalytics {
+  grid-column: span 7;
+}
+
+.actions {
+  display: grid;
+  gap: 12px;
+}
+
+.actionForm {
+  border: 1px solid #dce7ed;
+  border-radius: 10px;
+  padding: 12px;
+  display: grid;
+  gap: 8px;
+}
+
+.actionForm label {
+  font-weight: 600;
+  color: #1d4455;
+  display: grid;
+  gap: 6px;
+}
+
+.actionForm input,
+.actionForm select {
+  border: 1px solid #b8cbd6;
+  border-radius: 8px;
+  padding: 8px 10px;
+}
+
+.actionForm button,
+.logout {
+  border: 0;
+  border-radius: 8px;
+  padding: 9px 12px;
+  background: #0a6c90;
+  color: #fff;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.actionForm button:disabled,
+.logout:disabled {
+  background: #8fa8b4;
+  cursor: not-allowed;
+}
+
+.secondaryButton {
+  background: #9d4f0f !important;
+}
+
+.dangerButton {
+  background: #9a2d20 !important;
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.statCard {
+  border: 1px solid #d8e5eb;
+  border-radius: 10px;
+  padding: 10px;
+}
+
+.statLabel {
+  font-size: 0.82rem;
+  color: #4d6773;
+}
+
+.statValue {
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-top: 4px;
+  color: #153d4d;
+}
+
+.chartBox {
+  border: 1px solid #d8e5eb;
+  border-radius: 10px;
+  padding: 10px;
+  height: 320px;
+}
+
+.suggestions {
+  border: 1px solid #d8e5eb;
+  border-radius: 10px;
+  padding: 10px;
+  color: #274d5d;
+  line-height: 1.45;
+}
+
+.historyTableWrap {
+  overflow-x: auto;
+}
+
+.historyTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.historyTable th,
+.historyTable td {
+  border-bottom: 1px solid #d9e7ee;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.92rem;
+}
+
+.historyTable th {
+  color: #355768;
+}
+
+.sessionLink {
+  color: #0a6c90;
+  font-weight: 600;
+}
+
+.selectedRow {
+  background: #edf6fb;
+}
+
+.responseTableWrap {
+  overflow-x: auto;
+}
+
+.responseTable {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.responseTable th,
+.responseTable td {
+  border-bottom: 1px solid #d9e7ee;
+  padding: 8px;
+  text-align: left;
+  font-size: 0.9rem;
+}
+
+.loginPage {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 16px;
+  background: linear-gradient(180deg, #f4fcf8 0%, #eff6ff 100%);
+}
+
+.loginCard {
+  width: min(420px, 100%);
+  background: #fff;
+  border: 1px solid #cddce8;
+  border-radius: 14px;
+  padding: 20px;
+  display: grid;
+  gap: 12px;
+}
+
+.loginCard h1 {
+  color: #10394b;
+}
+
+.loginCard p {
+  color: #375968;
+  line-height: 1.5;
+}
+
+@media (max-width: 980px) {
+  .panelActions,
+  .panelAnalytics {
+    grid-column: span 12;
+  }
+}
+
+@media (max-width: 640px) {
+  .header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .statsGrid {
+    grid-template-columns: 1fr;
+  }
+}
+
